@@ -1,0 +1,5 @@
+source: local  # or 's3'
+s3_bucket: my-ml-bucket
+target_column: churn
+numeric_column: monetary
+current_date: "2024-12-31"

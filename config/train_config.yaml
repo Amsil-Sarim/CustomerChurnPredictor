@@ -1,0 +1,8 @@
+data_config: config/data_config.yaml
+data_path: data/customer_data.csv
+target_column: churn
+model_params:
+  max_depth: 5
+  learning_rate: 0.1
+  n_estimators: 100
+model_save_path: model.pkl

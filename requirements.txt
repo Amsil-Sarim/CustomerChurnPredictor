@@ -1,0 +1,9 @@
+pandas
+scikit-learn
+xgboost
+great_expectations
+dvc
+boto3
+flask
+joblib
+pyyaml
