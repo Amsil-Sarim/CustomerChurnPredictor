@@ -93,3 +93,12 @@ if __name__ == "__main__":
     ingestor = CustomerDataIngestion("config/data_config.yaml")
     data = ingestor.load_data("data/customer_data.csv", version="v1.0")
     print(data.head())
+
+    def compute_tenure(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Calculate customer tenure based on first order date."""
+        data['first_order_date'] = data.groupby('customer_id')['order_date'].transform('min')
+        current_date = pd.to_datetime(self.config['current_date'])
+        data['tenure_days'] = (current_date - data['first_order_date']).dt.days
+        data['tenure_years'] = data['tenure_days'] / 365.0
+        logger.info("Computed customer tenure features")
+        return data.drop(columns=['first_order_date'])
