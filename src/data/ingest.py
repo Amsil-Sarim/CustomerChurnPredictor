@@ -102,3 +102,12 @@ if __name__ == "__main__":
         data['tenure_years'] = data['tenure_days'] / 365.0
         logger.info("Computed customer tenure features")
         return data.drop(columns=['first_order_date'])
+
+    def normalize_features(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Normalize RFM features to 0-1 range."""
+        for col in ['recency', 'frequency', 'monetary']:
+            if col in data.columns:
+                data[f'{col}_norm'] = (data[col] - data[col].min()) / (data[col].max() - data[col].min())
+                data[f'{col}_norm'] = data[f'{col}_norm'].fillna(0)
+        logger.info("Normalized RFM features to 0-1 range")
+        return data
