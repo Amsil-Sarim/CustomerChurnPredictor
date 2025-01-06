@@ -111,3 +111,12 @@ if __name__ == "__main__":
                 data[f'{col}_norm'] = data[f'{col}_norm'].fillna(0)
         logger.info("Normalized RFM features to 0-1 range")
         return data
+
+    def compute_avg_order_value(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Calculate average order value per customer."""
+        data['total_orders'] = data.groupby('customer_id')['order_id'].transform('count')
+        data['total_spend'] = data.groupby('customer_id')['amount'].transform('sum')
+        data['avg_order_value'] = data['total_spend'] / data['total_orders']
+        data['avg_order_value'] = data['avg_order_value'].fillna(0)
+        logger.info("Computed average order value feature")
+        return data.drop(columns=['total_orders', 'total_spend'])
