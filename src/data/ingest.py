@@ -130,3 +130,14 @@ if __name__ == "__main__":
             raise ValueError(f"Required columns missing: {missing}")
         logger.info("Validated all required columns")
         return data
+
+    def log_data_stats(self, data: pd.DataFrame) -> None:
+        """Log statistics about the customer dataset."""
+        stats = {
+            'num_customers': len(data),
+            'avg_recency': data['recency'].mean(),
+            'avg_frequency': data['frequency'].mean(),
+            'avg_monetary': data['monetary'].mean(),
+            'churn_rate': data[self.config['target_column']].mean()
+        }
+        logger.info(f"Dataset stats: {stats}")
