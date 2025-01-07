@@ -120,3 +120,13 @@ if __name__ == "__main__":
         data['avg_order_value'] = data['avg_order_value'].fillna(0)
         logger.info("Computed average order value feature")
         return data.drop(columns=['total_orders', 'total_spend'])
+
+    def validate_columns(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Validate required columns for churn prediction."""
+        required = ['customer_id', 'order_date', 'order_id', 'amount', self.config['target_column']]
+        missing = [col for col in required if col not in data.columns]
+        if missing:
+            logger.error(f"Missing columns: {missing}")
+            raise ValueError(f"Required columns missing: {missing}")
+        logger.info("Validated all required columns")
+        return data
