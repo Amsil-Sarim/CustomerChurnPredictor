@@ -30,3 +30,12 @@ class XGBoostChurnModel:
         importance_dict = dict(zip(feature_names, importance))
         logger.info(f"Feature importance: {importance_dict}")
         return importance_dict
+
+    def grid_search_params(self, X_train, y_train):
+        """Perform grid search for hyperparameter tuning."""
+        from sklearn.model_selection import GridSearchCV
+        param_grid = {'max_depth': [3, 5, 7], 'learning_rate': [0.05, 0.1, 0.2]}
+        grid = GridSearchCV(self.model, param_grid, cv=3, scoring='accuracy')
+        grid.fit(X_train, y_train)
+        logger.info(f"Best parameters: {grid.best_params_}")
+        self.model.set_params(**grid.best_params_)
