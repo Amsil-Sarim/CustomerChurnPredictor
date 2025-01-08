@@ -22,3 +22,11 @@ class XGBoostChurnModel:
     
     def save(self, path):
         joblib.dump(self.model, path)
+
+    def compute_feature_importance(self, X):
+        """Calculate and log feature importance for churn prediction."""
+        importance = self.model.feature_importances_
+        feature_names = X.columns if hasattr(X, 'columns') else [f'feature_{i}' for i in range(X.shape[1])]
+        importance_dict = dict(zip(feature_names, importance))
+        logger.info(f"Feature importance: {importance_dict}")
+        return importance_dict
