@@ -39,3 +39,15 @@ class XGBoostChurnModel:
         grid.fit(X_train, y_train)
         logger.info(f"Best parameters: {grid.best_params_}")
         self.model.set_params(**grid.best_params_)
+
+    def log_evaluation_metrics(self, X_test, y_test):
+        """Log detailed evaluation metrics for the model."""
+        from sklearn.metrics import precision_score, recall_score, f1_score
+        y_pred = self.predict(X_test)
+        metrics = {
+            'precision': precision_score(y_test, y_pred),
+            'recall': recall_score(y_test, y_pred),
+            'f1': f1_score(y_test, y_pred)
+        }
+        logger.info(f"Evaluation metrics: {metrics}")
+        return metrics
