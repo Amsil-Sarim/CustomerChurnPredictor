@@ -51,3 +51,12 @@ class XGBoostChurnModel:
         }
         logger.info(f"Evaluation metrics: {metrics}")
         return metrics
+
+    def apply_class_weights(self, y_train):
+        """Apply class weights to handle imbalanced churn data."""
+        from sklearn.utils.class_weight import compute_class_weight
+        classes = [0, 1]
+        weights = compute_class_weight('balanced', classes=classes, y=y_train)
+        weight_dict = dict(zip(classes, weights))
+        self.model.set_params(scale_pos_weight=weight_dict[1]/weight_dict[0])
+        logger.info(f"Applied class weights: {weight_dict}")
