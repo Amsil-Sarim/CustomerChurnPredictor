@@ -60,3 +60,12 @@ class XGBoostChurnModel:
         weight_dict = dict(zip(classes, weights))
         self.model.set_params(scale_pos_weight=weight_dict[1]/weight_dict[0])
         logger.info(f"Applied class weights: {weight_dict}")
+
+    def save_with_version(self, path, version):
+        """Save model with version metadata."""
+        import os
+        versioned_path = f"{path}_v{version}"
+        self.save(versioned_path)
+        with open(f"{versioned_path}.meta", 'w') as f:
+            f.write(f"Version: {version}\nTimestamp: {datetime.now()}")
+        logger.info(f"Saved model with version {version} at {versioned_path}")
