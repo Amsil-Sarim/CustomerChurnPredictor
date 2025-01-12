@@ -40,3 +40,18 @@ def predict_with_confidence():
     except Exception as e:
         logger.error(f"Prediction error: {e}")
         return jsonify({'error': str(e)}), 400
+
+@app.route('/validate_input', methods=['POST'])
+def validate_input():
+    """Validate input data for churn prediction."""
+    try:
+        data = request.json['data']
+        if not all(key in data for key in ['recency', 'frequency', 'monetary']):
+            raise ValueError("Missing required features")
+        if any(data[key] < 0 for key in ['recency', 'frequency', 'monetary']):
+            raise ValueError("Features cannot be negative")
+        logger.info("Input data validated successfully")
+        return jsonify({'status': 'valid'})
+    except Exception as e:
+        logger.error(f"Validation error: {e}")
+        return jsonify({'error': str(e)}), 400
