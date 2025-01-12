@@ -26,3 +26,17 @@ def health_check():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+
+@app.route('/predict_with_confidence', methods=['POST'])
+def predict_with_confidence():
+    """Predict churn with confidence scores."""
+    try:
+        data = request.json['data']
+        features = [[data['recency'], data['frequency'], data['monetary']]]
+        prob = model.predict_proba(features)[0]
+        prediction = int(prob[1] > 0.5)
+        logger.info(f"Predicted churn with confidence: {prob[1]}")
+        return jsonify({'churn_prediction': prediction, 'confidence': float(prob[1])})
+    except Exception as e:
+        logger.error(f"Prediction error: {e}")
+        return jsonify({'error': str(e)}), 400
