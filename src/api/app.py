@@ -55,3 +55,15 @@ def validate_input():
     except Exception as e:
         logger.error(f"Validation error: {e}")
         return jsonify({'error': str(e)}), 400
+
+@app.route('/model_info', methods=['GET'])
+def model_info():
+    """Return information about the loaded XGBoost model."""
+    info = {
+        'model_type': 'XGBoost',
+        'params': model.get_params(),
+        'features': ['recency', 'frequency', 'monetary'],
+        'version': 'v1.0'
+    }
+    logger.info("Retrieved model information")
+    return jsonify(info)
