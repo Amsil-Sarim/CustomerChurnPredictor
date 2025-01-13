@@ -67,3 +67,16 @@ def model_info():
     }
     logger.info("Retrieved model information")
     return jsonify(info)
+
+@app.route('/predict_batch', methods=['POST'])
+def predict_batch():
+    """Predict churn for a batch of customers."""
+    try:
+        data_list = request.json['data']
+        features = [[d['recency'], d['frequency'], d['monetary']] for d in data_list]
+        predictions = model.predict(features).tolist()
+        logger.info(f"Processed batch of {len(data_list)} predictions")
+        return jsonify({'churn_predictions': predictions})
+    except Exception as e:
+        logger.error(f"Batch prediction error: {e}")
+        return jsonify({'error': str(e)}), 400
