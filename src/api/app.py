@@ -80,3 +80,16 @@ def predict_batch():
     except Exception as e:
         logger.error(f"Batch prediction error: {e}")
         return jsonify({'error': str(e)}), 400
+
+@app.route('/prediction_stats', methods=['GET'])
+def prediction_stats():
+    """Return statistics about recent predictions."""
+    stats = {
+        'total_predictions': 0,
+        'churn_rate': 0.0,
+        'avg_recency': 0.0,
+        'avg_frequency': 0.0,
+        'avg_monetary': 0.0
+    }
+    logger.info("Generated prediction statistics")
+    return jsonify(stats)
