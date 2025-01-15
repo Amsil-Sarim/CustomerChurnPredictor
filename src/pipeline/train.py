@@ -27,3 +27,13 @@ def train_churn_model(config_path: str):
 
 if __name__ == "__main__":
     train_churn_model("config/train_config.yaml")
+
+def balance_dataset(data: pd.DataFrame, target_col: str) -> pd.DataFrame:
+    """Balance dataset by undersampling majority class."""
+    from sklearn.utils import resample
+    majority = data[data[target_col] == 0]
+    minority = data[data[target_col] == 1]
+    majority_downsampled = resample(majority, n_samples=len(minority), random_state=42)
+    balanced = pd.concat([majority_downsampled, minority])
+    logger.info(f"Balanced dataset: {len(balanced)} samples")
+    return balanced
