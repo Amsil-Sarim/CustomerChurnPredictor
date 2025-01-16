@@ -46,3 +46,12 @@ def cross_validate_model(model, X, y, folds: int = 5):
     std_score = scores.std()
     logger.info(f"Cross-validation: Mean accuracy = {mean_score:.4f}, Std = {std_score:.4f}")
     return mean_score, std_score
+
+def feature_selection(X, y, k: int = 3):
+    """Select top-k features for churn prediction."""
+    from sklearn.feature_selection import SelectKBest, f_classif
+    selector = SelectKBest(score_func=f_classif, k=k)
+    selector.fit(X, y)
+    selected_features = X.columns[selector.get_support()].tolist()
+    logger.info(f"Selected features: {selected_features}")
+    return selected_features
