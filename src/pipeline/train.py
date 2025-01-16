@@ -37,3 +37,12 @@ def balance_dataset(data: pd.DataFrame, target_col: str) -> pd.DataFrame:
     balanced = pd.concat([majority_downsampled, minority])
     logger.info(f"Balanced dataset: {len(balanced)} samples")
     return balanced
+
+def cross_validate_model(model, X, y, folds: int = 5):
+    """Perform k-fold cross-validation for churn model."""
+    from sklearn.model_selection import cross_val_score
+    scores = cross_val_score(model.model, X, y, cv=folds, scoring='accuracy')
+    mean_score = scores.mean()
+    std_score = scores.std()
+    logger.info(f"Cross-validation: Mean accuracy = {mean_score:.4f}, Std = {std_score:.4f}")
+    return mean_score, std_score
