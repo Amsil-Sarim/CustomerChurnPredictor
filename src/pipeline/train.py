@@ -55,3 +55,12 @@ def feature_selection(X, y, k: int = 3):
     selected_features = X.columns[selector.get_support()].tolist()
     logger.info(f"Selected features: {selected_features}")
     return selected_features
+
+def save_model_checkpoint(model, epoch: int, path: str):
+    """Save model checkpoint with epoch metadata."""
+    import os
+    checkpoint_path = f"{path}_epoch_{epoch}"
+    model.save(checkpoint_path)
+    with open(f"{checkpoint_path}.meta", 'w') as f:
+        f.write(f"Epoch: {epoch}\nTimestamp: {datetime.now()}")
+    logger.info(f"Saved checkpoint at {checkpoint_path}")
