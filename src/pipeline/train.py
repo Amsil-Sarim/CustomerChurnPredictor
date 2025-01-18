@@ -64,3 +64,14 @@ def save_model_checkpoint(model, epoch: int, path: str):
     with open(f"{checkpoint_path}.meta", 'w') as f:
         f.write(f"Epoch: {epoch}\nTimestamp: {datetime.now()}")
     logger.info(f"Saved checkpoint at {checkpoint_path}")
+
+def log_training_metrics(model, X_val, y_val):
+    """Log validation metrics during training."""
+    from sklearn.metrics import accuracy_score, roc_auc_score
+    y_pred = model.predict(X_val)
+    metrics = {
+        'accuracy': accuracy_score(y_val, y_pred),
+        'roc_auc': roc_auc_score(y_val, model.predict_proba(X_val)[:, 1])
+    }
+    logger.info(f"Training metrics: {metrics}")
+    return metrics
