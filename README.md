@@ -22,3 +22,10 @@ A production-ready MLOps pipeline for predicting customer churn in e-commerce. F
 - **Output**: JSON with `churn_prediction` (0 or 1)
 - **Validation**: Data must pass Great Expectations checks
 - **Example**: `{"recency": 30, "frequency": 5, "monetary": 100.0}`
+
+## MLOps Features
+- **Versioning**: DVC for data and model versioning
+- **CI/CD**: GitHub Actions for automated testing
+- **Logging**: Structured logs in `logs/app.log`
+- **Monitoring**: API health checks at `/health`
+- **Scalability**: Flask API for production deployment
