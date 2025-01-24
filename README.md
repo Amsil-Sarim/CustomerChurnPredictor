@@ -15,3 +15,10 @@ A production-ready MLOps pipeline for predicting customer churn in e-commerce. F
 - **Data**: Place CSVs in `data/` or configure S3
 - **Logs**: Check `logs/app.log` for runtime details
 - **Testing**: Run `pytest tests/` for unit tests
+
+## Data Format
+- **Input**: CSV with `customer_id`, `order_date`, `order_id`, `amount`, `churn`
+- **Features**: `recency` (days), `frequency` (count), `monetary` (total spend)
+- **Output**: JSON with `churn_prediction` (0 or 1)
+- **Validation**: Data must pass Great Expectations checks
+- **Example**: `{"recency": 30, "frequency": 5, "monetary": 100.0}`
