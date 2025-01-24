@@ -8,3 +8,10 @@ A production-ready MLOps pipeline for predicting customer churn in e-commerce. F
 3. Configure data: Update `config/data_config.yaml` with source details
 4. Run the API: `python src/api/app.py`
 5. Train the model: `python src/pipeline/train.py`
+
+## Usage
+- **API**: Send POST requests to `/predict` with RFM features
+- **Training**: Run `train_churn_model('config/train_config.yaml')`
+- **Data**: Place CSVs in `data/` or configure S3
+- **Logs**: Check `logs/app.log` for runtime details
+- **Testing**: Run `pytest tests/` for unit tests
