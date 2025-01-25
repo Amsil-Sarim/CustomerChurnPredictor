@@ -29,3 +29,10 @@ A production-ready MLOps pipeline for predicting customer churn in e-commerce. F
 - **Logging**: Structured logs in `logs/app.log`
 - **Monitoring**: API health checks at `/health`
 - **Scalability**: Flask API for production deployment
+
+## Troubleshooting
+- **API Errors**: Check logs for stack traces
+- **Data Issues**: Validate CSV format and columns
+- **Model Failures**: Ensure model file exists
+- **Dependency Conflicts**: Use Python 3.9
+- **Performance**: Adjust model parameters in config
