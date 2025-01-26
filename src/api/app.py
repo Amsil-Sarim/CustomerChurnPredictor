@@ -93,3 +93,15 @@ def prediction_stats():
     }
     logger.info("Generated prediction statistics")
     return jsonify(stats)
+
+@app.route('/health', methods=['GET'])
+def health_check():
+    """Check API and model health."""
+    try:
+        test_features = [[30, 5, 100.0]]
+        model.predict(test_features)
+        status = 'healthy'
+    except Exception as e:
+        logger.error(f"Health check failed: {str(e)}")
+        status = 'unhealthy'
+    return jsonify({'status': status, 'model_loaded': True})
