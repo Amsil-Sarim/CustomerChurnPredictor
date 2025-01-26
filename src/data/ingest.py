@@ -141,3 +141,12 @@ if __name__ == "__main__":
             'churn_rate': data[self.config['target_column']].mean()
         }
         logger.info(f"Dataset stats: {stats}")
+
+    def filter_invalid_records(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Filter out invalid customer records."""
+        original_len = len(data)
+        data = data.dropna(subset=['customer_id', 'order_date'])
+        data = data[data['recency'] >= 0]
+        data = data[data['monetary'] >= 0]
+        logger.info(f"Filtered {original_len - len(data)} invalid records")
+        return data.reset_index(drop=True)
