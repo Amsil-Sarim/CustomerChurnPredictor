@@ -150,3 +150,12 @@ if __name__ == "__main__":
         data = data[data['monetary'] >= 0]
         logger.info(f"Filtered {original_len - len(data)} invalid records")
         return data.reset_index(drop=True)
+
+    def compute_customer_segments(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Segment customers based on RFM scores."""
+        data['recency_score'] = pd.qcut(data['recency'], q=4, labels=False, duplicates='drop')
+        data['frequency_score'] = pd.qcut(data['frequency'], q=4, labels=False, duplicates='drop')
+        data['monetary_score'] = pd.qcut(data['monetary'], q=4, labels=False, duplicates='drop')
+        data['rfm_segment'] = data[['recency_score', 'frequency_score', 'monetary_score']].sum(axis=1)
+        logger.info("Computed RFM-based customer segments")
+        return data
